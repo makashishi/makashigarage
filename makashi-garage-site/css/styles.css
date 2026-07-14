@@ -124,24 +124,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .nav .container{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .brand{
-  font-family:"Big Shoulders Display", sans-serif;
-  font-weight:600;
-  font-style:italic;
-  font-size:26px;
-  letter-spacing:.01em;
   display:flex;
-  align-items:baseline;
-  gap:8px;
+  align-items:center;
   white-space:nowrap;
 }
-.brand span{
-  font-family:var(--font-mono);
-  font-style:normal;
-  font-size:10px;
-  letter-spacing:.2em;
-  color:var(--text-dimmer);
-  text-transform:uppercase;
+.brand-logo{
+  height:28px;
+  width:auto;
+  display:block;
 }
+.footer-brand .brand-logo{ height:32px; }
 .nav-links{ display:flex; gap:30px; }
 .nav-links a{
   font-size:14px;
