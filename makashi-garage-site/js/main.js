@@ -109,124 +109,6 @@
   document.querySelectorAll("[data-ba]").forEach(initBaSlider);
 
   /* ============================================================
-     Lightbox gallery — для снимки от сектор "Зад кулисите"
-     Позволява увеличение на снимките при клик
-     ============================================================ */
-  function initLightbox() {
-    var processStrip = document.querySelector(".process-strip");
-    if (!processStrip) return;
-
-    var processCards = processStrip.querySelectorAll(".process-card");
-    if (processCards.length === 0) return;
-
-    // Създаваме модален прозорец
-    var modal = document.createElement("div");
-    modal.id = "lightboxModal";
-    modal.className = "lightbox-modal";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-label", "Увеличен преглед на снимка");
-
-    modal.innerHTML = 
-      '<div class="lightbox-content">' +
-        '<div class="lightbox-image-wrap">' +
-          '<img id="lightboxImage" src="" alt="" />' +
-        '</div>' +
-        '<div class="lightbox-caption" id="lightboxCaption"></div>' +
-        '<button class="lightbox-close" id="lightboxClose" aria-label="Затвори">' +
-          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-            '<line x1="18" y1="6" x2="6" y2="18"></line>' +
-            '<line x1="6" y1="6" x2="18" y2="18"></line>' +
-          '</svg>' +
-        '</button>' +
-        '<button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Предишна снимка">' +
-          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-            '<polyline points="15 18 9 12 15 6"></polyline>' +
-          '</svg>' +
-        '</button>' +
-        '<button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Следваща снимка">' +
-          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-            '<polyline points="9 18 15 12 9 6"></polyline>' +
-          '</svg>' +
-        '</button>' +
-        '<div class="lightbox-counter" id="lightboxCounter"></div>' +
-      '</div>';
-
-    document.body.appendChild(modal);
-
-    var currentIndex = 0;
-    var images = [];
-
-    // Събираме всички снимки от process cards
-    processCards.forEach(function (card, index) {
-      var img = card.querySelector("img");
-      var caption = card.querySelector("figcaption");
-      if (img) {
-        images.push({
-          src: img.src,
-          alt: img.alt,
-          caption: caption ? caption.textContent : "",
-          index: index
-        });
-      }
-    });
-
-    function openLightbox(index) {
-      currentIndex = Math.max(0, Math.min(index, images.length - 1));
-      var image = images[currentIndex];
-      document.getElementById("lightboxImage").src = image.src;
-      document.getElementById("lightboxImage").alt = image.alt;
-      document.getElementById("lightboxCaption").textContent = image.caption;
-      document.getElementById("lightboxCounter").textContent = 
-        (currentIndex + 1) + " / " + images.length;
-      
-      modal.classList.add("is-open");
-      document.body.style.overflow = "hidden";
-      document.getElementById("lightboxImage").focus();
-    }
-
-    function closeLightbox() {
-      modal.classList.remove("is-open");
-      document.body.style.overflow = "";
-    }
-
-    // Event listeners
-    document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
-    document.getElementById("lightboxPrev").addEventListener("click", function () {
-      openLightbox(currentIndex - 1);
-    });
-    document.getElementById("lightboxNext").addEventListener("click", function () {
-      openLightbox(currentIndex + 1);
-    });
-
-    // Затваряне при клик на фона
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) closeLightbox();
-    });
-
-    // Keyboard navigation
-    document.addEventListener("keydown", function (e) {
-      if (!modal.classList.contains("is-open")) return;
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowLeft") openLightbox(currentIndex - 1);
-      if (e.key === "ArrowRight") openLightbox(currentIndex + 1);
-    });
-
-    // Отваряме lightbox при клик на снимка
-    processCards.forEach(function (card, index) {
-      var img = card.querySelector("img");
-      if (img) {
-        img.style.cursor = "pointer";
-        img.addEventListener("click", function () {
-          openLightbox(index);
-        });
-      }
-    });
-  }
-
-  initLightbox();
-
-  /* ============================================================
      Video play button — swaps poster for playback on demand
      ============================================================ */
   var videoWrap = document.getElementById("videoWrap");
@@ -272,6 +154,21 @@
         "&body=" + encodeURIComponent(body);
 
       window.location.href = mailto;
+    });
+  }
+
+  /* Sticky mobile call button — tap to choose between two named numbers */
+  var callBtn = document.getElementById("stickyCallBtn");
+  var callMenu = document.getElementById("stickyCallMenu");
+  if (callBtn && callMenu) {
+    callBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      callMenu.classList.toggle("is-open");
+    });
+    document.addEventListener("click", function (e) {
+      if (!callMenu.contains(e.target) && e.target !== callBtn) {
+        callMenu.classList.remove("is-open");
+      }
     });
   }
 })();

@@ -459,142 +459,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   overflow:hidden;
   background:var(--bg-alt);
 }
-.process-card img{ 
-  width:100%; 
-  height:auto; 
-  object-fit:contain;
-  display:block;
-  max-height:400px;
-}
+.process-card img{ aspect-ratio:4/3; object-fit:cover; width:100%; }
 .process-card figcaption{
   padding:14px 16px;
   font-size:13.5px;
   color:var(--text-dim);
   font-family:var(--font-mono);
   letter-spacing:.02em;
-}
-
-/* =========================================================
-   LIGHTBOX MODAL
-   ========================================================= */
-.lightbox-modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  background:rgba(0,0,0,.92);
-  backdrop-filter:blur(4px);
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  transition:opacity .3s ease;
-  animation:fadeIn .3s ease forwards;
-}
-.lightbox-modal.is-open{
-  display:flex;
-  opacity:1;
-}
-@keyframes fadeIn{
-  from{ opacity:0; }
-  to{ opacity:1; }
-}
-
-.lightbox-content{
-  position:relative;
-  width:90%;
-  max-width:900px;
-  max-height:85vh;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.lightbox-image-wrap{
-  position:relative;
-  width:100%;
-  height:auto;
-  max-height:70vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(10,11,13,.5);
-  border-radius:var(--radius);
-  overflow:hidden;
-}
-
-.lightbox-image-wrap img{
-  max-width:100%;
-  max-height:70vh;
-  object-fit:contain;
-  width:auto;
-  height:auto;
-}
-
-.lightbox-caption{
-  text-align:center;
-  color:var(--text-dim);
-  font-family:var(--font-mono);
-  font-size:13px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  padding:0 20px;
-}
-
-.lightbox-close{
-  position:absolute;
-  top:20px;
-  right:20px;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:rgba(10,11,13,.8);
-  border:1px solid rgba(255,255,255,.3);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:background .2s ease, border-color .2s ease;
-  z-index:10;
-}
-.lightbox-close:hover{
-  background:rgba(10,11,13,.95);
-  border-color:var(--accent-warm);
-  color:var(--accent-warm);
-}
-
-.lightbox-nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:50px;
-  height:50px;
-  border-radius:4px;
-  background:rgba(10,11,13,.8);
-  border:1px solid rgba(255,255,255,.3);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:background .2s ease, border-color .2s ease;
-  z-index:10;
-}
-.lightbox-nav:hover{
-  background:rgba(10,11,13,.95);
-  border-color:var(--accent-cold);
-  color:var(--accent-cold);
-}
-.lightbox-prev{ left:20px; }
-.lightbox-next{ right:20px; }
-
-.lightbox-counter{
-  text-align:center;
-  color:var(--text-dimmer);
-  font-family:var(--font-mono);
-  font-size:12px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
 }
 
 /* =========================================================
@@ -746,18 +617,53 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-social a:hover{ color:var(--accent-warm); }
 
 /* sticky mobile call button */
-.sticky-call{
+.sticky-call-wrap{
   position:fixed; z-index:90; left:16px; right:16px; bottom:16px;
   display:none;
+}
+.sticky-call{
+  width:100%;
+  border:none;
   background:var(--accent-warm);
   color:#161207;
   padding:15px;
   border-radius:3px;
   font-weight:700;
+  font-size:15px;
   text-align:center;
-  align-items:center; justify-content:center; gap:10px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
   box-shadow:0 8px 30px rgba(0,0,0,.45);
 }
+.sticky-call-menu{
+  position:absolute;
+  left:0; right:0; bottom:calc(100% + 10px);
+  background:var(--bg-alt);
+  border:1px solid var(--line);
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,.5);
+  display:none;
+  flex-direction:column;
+}
+.sticky-call-menu.is-open{ display:flex; }
+.sticky-call-menu a{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 18px;
+  color:var(--text);
+  font-weight:700;
+  font-size:16px;
+  border-bottom:1px solid var(--line);
+}
+.sticky-call-menu a:last-child{ border-bottom:none; }
+.sticky-call-menu a span{
+  font-family:var(--font-mono);
+  font-weight:500;
+  font-size:12.5px;
+  color:var(--accent-cold);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.sticky-call-menu a:active{ background:var(--bg-alt-2); }
 
 /* =========================================================
    REVEAL ON SCROLL
@@ -783,21 +689,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .ba-grid{ grid-template-columns:1fr; }
   .form-grid{ grid-template-columns:1fr; }
   .contact-panel, .form-panel{ padding:34px 26px; }
-  .sticky-call{ display:flex; }
+  .sticky-call-wrap{ display:block; }
   body{ padding-bottom:78px; }
-  
-  .lightbox-content{
-    width:95%;
-    gap:15px;
-  }
-  .lightbox-nav{
-    width:40px;
-    height:40px;
-  }
-  .lightbox-close{
-    width:36px;
-    height:36px;
-  }
 }
 @media (max-width:560px){
   .services-grid{ grid-template-columns:1fr; }
@@ -810,39 +703,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .brand{ min-width:0; flex-shrink:1; }
   .brand-logo{ height:20px; max-width:100%; }
   .nav-cta .btn{ padding:10px 14px; font-size:12.5px; white-space:nowrap; }
-  
-  .lightbox-modal{
-    background:rgba(0,0,0,.96);
-  }
-  .lightbox-image-wrap{
-    max-height:60vh;
-  }
-  .lightbox-image-wrap img{
-    max-height:60vh;
-  }
-  .lightbox-nav{
-    width:36px;
-    height:36px;
-  }
-  .lightbox-prev{ left:10px; }
-  .lightbox-next{ right:10px; }
-  .lightbox-close{
-    top:10px;
-    right:10px;
-    width:32px;
-    height:32px;
-  }
 }
 @media (max-width:380px){
   .brand-logo{ height:17px; }
   .nav-cta .btn{ padding:9px 11px; font-size:11.5px; }
-  
-  .lightbox-nav svg{
-    width:16px;
-    height:16px;
-  }
-  .lightbox-close svg{
-    width:16px;
-    height:16px;
-  }
 }
