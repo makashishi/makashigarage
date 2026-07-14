@@ -293,12 +293,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .about-copy p{ color:var(--text-dim); margin-bottom:18px; font-size:16px; }
 .about-copy p:last-child{ margin-bottom:0; }
 .about-copy strong{ color:var(--text); font-weight:700; }
-.about-media{ position:relative; }
+.about-media{ position:relative; background:var(--bg-alt-2); border-radius:var(--radius); overflow:hidden; }
 .about-media img{
   border-radius:var(--radius);
   aspect-ratio:4/5;
-  object-fit:cover;
+  object-fit:contain;
   width:100%;
+  background:var(--bg-alt-2);
+  display:block;
 }
 .about-media-tag{
   position:absolute; left:-1px; bottom:-1px;
@@ -662,4 +664,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .hero-content{ padding-bottom:60px; }
   .footer-top{ grid-template-columns:1fr; gap:32px; }
   .reviews-panel, .contact-panel, .form-panel{ padding:30px 22px; }
+  .nav .container{ gap:10px; padding-left:16px; padding-right:16px; }
+  .brand{ min-width:0; flex-shrink:1; }
+  .brand-logo{ height:20px; max-width:100%; }
+  .nav-cta .btn{ padding:10px 14px; font-size:12.5px; white-space:nowrap; }
+}
+@media (max-width:380px){
+  .brand-logo{ height:17px; }
+  .nav-cta .btn{ padding:9px 11px; font-size:11.5px; }
 }
