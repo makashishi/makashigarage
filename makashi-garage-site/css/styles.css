@@ -462,7 +462,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   cursor:zoom-in;
   position:relative;
 }
-.process-card img{ aspect-ratio:4/3; object-fit:cover; width:100%; display:block; transition:transform .35s ease; }
+.process-card img{
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+  max-height:400px;
+  transition:transform .35s ease;
+}
 .process-card:hover img{ transform:scale(1.045); }
 .process-card::after{
   content:"";
