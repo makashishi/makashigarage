@@ -26,6 +26,22 @@
     });
   });
 
+  /* Nav phone dropdown — same behavior as the sticky call button */
+  var navPhoneBtn = document.getElementById("navPhoneBtn");
+  var navPhoneMenu = document.getElementById("navPhoneMenu");
+  var navPhoneWrap = navPhoneBtn ? navPhoneBtn.closest(".nav-phone-wrap") : null;
+  if (navPhoneBtn && navPhoneWrap) {
+    navPhoneBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      navPhoneWrap.classList.toggle("is-open");
+    });
+    document.addEventListener("click", function (e) {
+      if (!navPhoneWrap.contains(e.target)) {
+        navPhoneWrap.classList.remove("is-open");
+      }
+    });
+  }
+
   /* Back to top */
   var backToTop = document.getElementById("backToTop");
   if (backToTop) {
