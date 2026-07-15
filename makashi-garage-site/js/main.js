@@ -26,6 +26,28 @@
     });
   });
 
+  /* Back to top */
+  var backToTop = document.getElementById("backToTop");
+  if (backToTop) {
+    function toggleBackToTop() {
+      if (window.scrollY > window.innerHeight * 0.8) backToTop.classList.add("is-visible");
+      else backToTop.classList.remove("is-visible");
+    }
+    toggleBackToTop();
+    window.addEventListener("scroll", toggleBackToTop, { passive: true });
+    backToTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  /* Services accordion — only meaningfully collapses on mobile via CSS,
+     but the toggle class is harmless to add at any width. */
+  document.querySelectorAll(".service-card").forEach(function (card) {
+    card.addEventListener("click", function (e) {
+      card.classList.toggle("is-open");
+    });
+  });
+
   /* Scroll reveal */
   var revealEls = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
@@ -156,6 +178,63 @@
       window.location.href = mailto;
     });
   }
+
+  /* Lightbox gallery for "Зад кулисите" */
+  var lbItems = Array.prototype.map.call(
+    document.querySelectorAll("#processGrid [data-lightbox]"),
+    function (fig) {
+      var img = fig.querySelector("img");
+      var cap = fig.querySelector("figcaption");
+      return { src: img.getAttribute("src"), alt: img.getAttribute("alt"), caption: cap ? cap.textContent : "" };
+    }
+  );
+  var lightbox = document.getElementById("lightbox");
+  var lbImg = document.getElementById("lightboxImg");
+  var lbCaption = document.getElementById("lightboxCaption");
+  var lbCounter = document.getElementById("lightboxCounter");
+  var lbCurrent = 0;
+
+  function openLightbox(index) {
+    if (!lightbox || !lbItems.length) return;
+    lbCurrent = index;
+    showLightboxItem();
+    lightbox.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeLightbox() {
+    lightbox.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+  function showLightboxItem() {
+    var item = lbItems[lbCurrent];
+    lbImg.setAttribute("src", item.src);
+    lbImg.setAttribute("alt", item.alt);
+    lbCaption.textContent = item.caption;
+    if (lbCounter) lbCounter.textContent = (lbCurrent + 1) + " / " + lbItems.length;
+  }
+  function nextLightbox() { lbCurrent = (lbCurrent + 1) % lbItems.length; showLightboxItem(); }
+  function prevLightbox() { lbCurrent = (lbCurrent - 1 + lbItems.length) % lbItems.length; showLightboxItem(); }
+
+  document.querySelectorAll("#processGrid [data-lightbox]").forEach(function (fig, i) {
+    fig.addEventListener("click", function () { openLightbox(i); });
+  });
+  var lbCloseBtn = document.getElementById("lightboxClose");
+  var lbPrevBtn = document.getElementById("lightboxPrev");
+  var lbNextBtn = document.getElementById("lightboxNext");
+  if (lbCloseBtn) lbCloseBtn.addEventListener("click", closeLightbox);
+  if (lbPrevBtn) lbPrevBtn.addEventListener("click", prevLightbox);
+  if (lbNextBtn) lbNextBtn.addEventListener("click", nextLightbox);
+  if (lightbox) {
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (!lightbox || !lightbox.classList.contains("is-open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") nextLightbox();
+    if (e.key === "ArrowLeft") prevLightbox();
+  });
 
   /* Sticky mobile call button — tap to choose between two named numbers */
   var callBtn = document.getElementById("stickyCallBtn");

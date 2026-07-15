@@ -346,6 +346,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   width:38px; height:38px;
   color:var(--accent-warm);
 }
+.service-chevron{
+  display:none;
+  width:18px; height:18px;
+  color:var(--text-dimmer);
+  margin-left:auto;
+  transition:transform .25s ease;
+  flex:0 0 auto;
+}
 
 /* =========================================================
    BEFORE / AFTER SLIDER
@@ -440,32 +448,156 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .ba-hint svg{ color:var(--accent-cold); }
 
 /* process strip */
-.process-strip{
+.process-grid{
   display:grid;
-  grid-auto-flow:column;
-  grid-auto-columns:min(78vw, 420px);
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
   gap:20px;
-  overflow-x:auto;
-  padding-bottom:10px;
-  scroll-snap-type:x mandatory;
   margin-top:8px;
 }
-.process-strip::-webkit-scrollbar{ height:5px; }
-.process-strip::-webkit-scrollbar-thumb{ background:var(--line); }
 .process-card{
-  scroll-snap-align:start;
   border:1px solid var(--line);
   border-radius:var(--radius);
   overflow:hidden;
   background:var(--bg-alt);
+  cursor:zoom-in;
+  position:relative;
 }
-.process-card img{ aspect-ratio:4/3; object-fit:cover; width:100%; }
+.process-card img{ aspect-ratio:4/3; object-fit:cover; width:100%; display:block; transition:transform .35s ease; }
+.process-card:hover img{ transform:scale(1.045); }
+.process-card::after{
+  content:"";
+  position:absolute; top:12px; right:12px;
+  width:32px; height:32px;
+  border-radius:50%;
+  background:rgba(10,11,13,.6);
+  backdrop-filter:blur(3px);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'><circle cx='11' cy='11' r='7'/><path d='M21 21l-4.3-4.3M11 8v6M8 11h6'/></svg>");
+  background-repeat:no-repeat; background-position:center; background-size:16px;
+  opacity:0; transition:opacity .2s ease;
+}
+.process-card:hover::after{ opacity:1; }
 .process-card figcaption{
   padding:14px 16px;
   font-size:13.5px;
   color:var(--text-dim);
   font-family:var(--font-mono);
   letter-spacing:.02em;
+}
+
+/* =========================================================
+   LIGHTBOX MODAL
+   ========================================================= */
+.lightbox-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(0,0,0,.92);
+  backdrop-filter:blur(4px);
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .3s ease;
+  animation:fadeIn .3s ease forwards;
+}
+.lightbox-modal.is-open{
+  display:flex;
+  opacity:1;
+}
+@keyframes fadeIn{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+.lightbox-content{
+  position:relative;
+  width:90%;
+  max-width:900px;
+  max-height:85vh;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.lightbox-image-wrap{
+  position:relative;
+  width:100%;
+  height:auto;
+  max-height:70vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(10,11,13,.5);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.lightbox-image-wrap img{
+  max-width:100%;
+  max-height:70vh;
+  object-fit:contain;
+  width:auto;
+  height:auto;
+}
+.lightbox-caption{
+  text-align:center;
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:13px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:0 20px;
+}
+.lightbox-close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(10,11,13,.8);
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:background .2s ease, border-color .2s ease;
+  z-index:10;
+}
+.lightbox-close:hover{
+  background:rgba(10,11,13,.95);
+  border-color:var(--accent-warm);
+  color:var(--accent-warm);
+}
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:50px;
+  height:50px;
+  border-radius:4px;
+  background:rgba(10,11,13,.8);
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:background .2s ease, border-color .2s ease;
+  z-index:10;
+}
+.lightbox-nav:hover{
+  background:rgba(10,11,13,.95);
+  border-color:var(--accent-cold);
+  color:var(--accent-cold);
+}
+.lightbox-prev{ left:20px; }
+.lightbox-next{ right:20px; }
+.lightbox-counter{
+  text-align:center;
+  color:var(--text-dimmer);
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
 
 /* =========================================================
@@ -506,6 +638,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .reviews-score p{ color:var(--text-dim); font-size:13px; font-family:var(--font-mono); letter-spacing:.06em; }
 .reviews-copy h3{ font-size:24px; margin-bottom:14px; }
 .reviews-copy p{ color:var(--text-dim); margin-bottom:24px; }
+
+/* =========================================================
+   FACEBOOK WIDGET
+   ========================================================= */
+.fb-widget{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:#fff;
+  display:flex;
+  justify-content:center;
+  max-width:560px;
+}
+.fb-widget .fb-page, .fb-widget iframe{ width:100% !important; }
 
 /* =========================================================
    VIDEO
@@ -616,6 +762,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-social a{ color:var(--text-dim); }
 .footer-social a:hover{ color:var(--accent-warm); }
 
+/* back to top */
+.back-to-top{
+  position:fixed; z-index:95; right:20px; bottom:20px;
+  width:46px; height:46px;
+  border-radius:50%;
+  background:var(--bg-alt);
+  border:1px solid var(--line);
+  color:var(--text);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; visibility:hidden;
+  transform:translateY(10px);
+  transition:opacity .25s ease, transform .25s ease, border-color .2s ease, color .2s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.back-to-top.is-visible{ opacity:1; visibility:visible; transform:none; }
+.back-to-top:hover{ border-color:var(--accent-cold); color:var(--accent-cold); }
+
 /* sticky mobile call button */
 .sticky-call-wrap{
   position:fixed; z-index:90; left:16px; right:16px; bottom:16px;
@@ -691,6 +854,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .contact-panel, .form-panel{ padding:34px 26px; }
   .sticky-call-wrap{ display:block; }
   body{ padding-bottom:78px; }
+  .back-to-top{ bottom:86px; right:16px; width:42px; height:42px; }
+
+  .lightbox-content{
+    width:95%;
+    gap:15px;
+  }
+  .lightbox-nav{
+    width:40px;
+    height:40px;
+  }
+  .lightbox-close{
+    width:36px;
+    height:36px;
+  }
 }
 @media (max-width:560px){
   .services-grid{ grid-template-columns:1fr; }
@@ -703,8 +880,85 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .brand{ min-width:0; flex-shrink:1; }
   .brand-logo{ height:20px; max-width:100%; }
   .nav-cta .btn{ padding:10px 14px; font-size:12.5px; white-space:nowrap; }
+
+  /* Compact accordion services on mobile — collapsed by default */
+  .service-card{
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px 14px;
+    padding:20px 20px;
+    cursor:pointer;
+  }
+  .service-card .etch{ display:none; }
+  .service-card.is-open .etch{ display:inline-flex; order:3; flex-basis:100%; margin-top:2px; }
+  .service-icon{ width:26px; height:26px; }
+  .service-card h3{ font-size:16px; margin:0; flex:1; }
+  .service-chevron{ display:block; }
+  .service-card.is-open .service-chevron{ transform:rotate(180deg); color:var(--accent-cold); }
+  .service-card p{
+    flex-basis:100%;
+    max-height:0;
+    overflow:hidden;
+    margin:0;
+    opacity:0;
+    transition:max-height .3s ease, opacity .25s ease, margin .3s ease;
+  }
+  .service-card.is-open p{
+    max-height:220px;
+    opacity:1;
+    margin-top:2px;
+  }
+
+  /* Before/After — horizontal swipe gallery instead of a long vertical stack */
+  .ba-grid{
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:87vw;
+    grid-template-columns:none;
+    gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding-bottom:6px;
+    margin:0 -20px;
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .ba-item{ scroll-snap-align:start; }
+  .ba-hint{ margin-top:-10px; }
+
+  .lightbox-modal{
+    background:rgba(0,0,0,.96);
+  }
+  .lightbox-image-wrap{
+    max-height:60vh;
+  }
+  .lightbox-image-wrap img{
+    max-height:60vh;
+  }
+  .lightbox-nav{
+    width:36px;
+    height:36px;
+  }
+  .lightbox-prev{ left:10px; }
+  .lightbox-next{ right:10px; }
+  .lightbox-close{
+    top:10px;
+    right:10px;
+    width:32px;
+    height:32px;
+  }
 }
 @media (max-width:380px){
   .brand-logo{ height:17px; }
   .nav-cta .btn{ padding:9px 11px; font-size:11.5px; }
+
+  .lightbox-nav svg{
+    width:16px;
+    height:16px;
+  }
+  .lightbox-close svg{
+    width:16px;
+    height:16px;
+  }
 }
