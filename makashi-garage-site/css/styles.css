@@ -487,6 +487,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   font-family:var(--font-mono);
 }
 .ba-hint svg{ color:var(--accent-cold); }
+.process-hint{
+  display:none;
+  align-items:center; gap:10px;
+  color:var(--text-dimmer);
+  font-size:13px;
+  font-family:var(--font-mono);
+  margin:-24px 0 20px;
+}
+.process-hint svg{ color:var(--accent-cold); }
 
 /* process strip */
 .process-grid{
@@ -974,6 +983,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   }
   .ba-item{ scroll-snap-align:start; }
   .ba-hint{ margin-top:-10px; }
+
+  /* Зад кулисите — same horizontal swipe treatment as Преди/След */
+  .process-grid{
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:80vw;
+    grid-template-columns:none;
+    gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding-bottom:6px;
+    margin:0 -20px;
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .process-card{ scroll-snap-align:start; }
+  .process-hint{ display:flex; }
 
   .lightbox-modal{
     background:rgba(0,0,0,.96);
