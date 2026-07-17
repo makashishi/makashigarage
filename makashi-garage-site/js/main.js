@@ -59,7 +59,7 @@
   /* Services accordion — only meaningfully collapses on mobile via CSS,
      but the toggle class is harmless to add at any width. */
   document.querySelectorAll(".service-card").forEach(function (card) {
-    card.addEventListener("click", function (e) {
+    card.addEventListener("click", function () {
       card.classList.toggle("is-open");
     });
   });
@@ -146,6 +146,31 @@
 
   document.querySelectorAll("[data-ba]").forEach(initBaSlider);
 
+  /* Click on REF labels in Before/After cards to open the corresponding image in modal */
+  var baItems = Array.prototype.slice.call(document.querySelectorAll("#predi-sled .ba-item"));
+  if (baItems.length && typeof openLightbox === "function") {
+    baItems.forEach(function (item, index) {
+      var refEl = item.querySelector(".ba-caption span");
+      if (!refEl) return;
+      refEl.style.cursor = "pointer";
+      refEl.setAttribute("role", "button");
+      refEl.setAttribute("tabindex", "0");
+      refEl.setAttribute("aria-label", "Отвори снимка " + refEl.textContent.trim());
+
+      refEl.addEventListener("click", function (e) {
+        e.stopPropagation();
+        openLightbox(index);
+      });
+
+      refEl.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLightbox(index);
+        }
+      });
+    });
+  }
+
   /* ============================================================
      Video play button — swaps poster for playback on demand
      ============================================================ */
@@ -204,6 +229,24 @@
       return { src: img.getAttribute("src"), alt: img.getAttribute("alt"), caption: cap ? cap.textContent : "" };
     }
   );
+
+  /* If there are no process items, fallback to Before/After section so REF labels can still open modal */
+  if (!lbItems.length) {
+    lbItems = Array.prototype.map.call(
+      document.querySelectorAll("#predi-sled .ba-item"),
+      function (fig) {
+        var afterImg = fig.querySelector(".ba-after");
+        var title = fig.querySelector(".ba-caption h4");
+        var ref = fig.querySelector(".ba-caption span");
+        return {
+          src: afterImg ? afterImg.getAttribute("src") : "",
+          alt: afterImg ? afterImg.getAttribute("alt") : "",
+          caption: (title ? title.textContent : "") + (ref ? " · " + ref.textContent : "")
+        };
+      }
+    );
+  }
+
   var lightbox = document.getElementById("lightbox");
   var lbImg = document.getElementById("lightboxImg");
   var lbCaption = document.getElementById("lightboxCaption");
