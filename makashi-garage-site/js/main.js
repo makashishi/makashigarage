@@ -42,6 +42,87 @@
     });
   }
 
+  /* ============================================================
+     Cookie consent — Google Maps and Facebook widget stay unloaded
+     (no third-party requests, no cookies set) until the person
+     explicitly consents, either globally via the banner or locally
+     via the per-section "Приемам и зареди" button.
+     ============================================================ */
+  var CONSENT_KEY = "makashi_cookie_consent";
+
+  function loadFacebookWidget() {
+    var gate = document.getElementById("fbConsentGate");
+    var page = document.getElementById("fbPageEl");
+    if (gate) gate.classList.add("is-hidden");
+    if (page) page.style.display = "";
+    if (!document.getElementById("fb-sdk-script")) {
+      var s = document.createElement("script");
+      s.id = "fb-sdk-script";
+      s.async = true;
+      s.defer = true;
+      s.crossOrigin = "anonymous";
+      s.src = "https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v19.0";
+      document.body.appendChild(s);
+    } else if (window.FB) {
+      window.FB.XFBML.parse();
+    }
+  }
+
+  function loadMapEmbed() {
+    var gate = document.getElementById("mapConsentGate");
+    var iframe = document.getElementById("mapIframe");
+    if (gate) gate.classList.add("is-hidden");
+    if (iframe && !iframe.src) {
+      iframe.src = iframe.getAttribute("data-src");
+      iframe.style.display = "";
+    }
+  }
+
+  function acceptAllConsent() {
+    localStorage.setItem(CONSENT_KEY, "accepted");
+    loadFacebookWidget();
+    loadMapEmbed();
+    hideBanner();
+  }
+
+  function declineConsent() {
+    localStorage.setItem(CONSENT_KEY, "declined");
+    hideBanner();
+  }
+
+  function hideBanner() {
+    var banner = document.getElementById("cookieBanner");
+    if (banner) banner.classList.remove("is-visible");
+  }
+
+  var cookieBanner = document.getElementById("cookieBanner");
+  if (cookieBanner) {
+    var existingConsent = localStorage.getItem(CONSENT_KEY);
+    if (existingConsent === "accepted") {
+      loadFacebookWidget();
+      loadMapEmbed();
+    } else if (!existingConsent) {
+      cookieBanner.classList.add("is-visible");
+    }
+    var acceptBtn = document.getElementById("cookieAccept");
+    var declineBtn = document.getElementById("cookieDecline");
+    if (acceptBtn) acceptBtn.addEventListener("click", acceptAllConsent);
+    if (declineBtn) declineBtn.addEventListener("click", declineConsent);
+  }
+
+  var fbConsentBtn = document.getElementById("fbConsentBtn");
+  if (fbConsentBtn) fbConsentBtn.addEventListener("click", function () {
+    localStorage.setItem(CONSENT_KEY, "accepted");
+    loadFacebookWidget();
+    hideBanner();
+  });
+  var mapConsentBtn = document.getElementById("mapConsentBtn");
+  if (mapConsentBtn) mapConsentBtn.addEventListener("click", function () {
+    localStorage.setItem(CONSENT_KEY, "accepted");
+    loadMapEmbed();
+    hideBanner();
+  });
+
   /* Back to top */
   var backToTop = document.getElementById("backToTop");
   if (backToTop) {
