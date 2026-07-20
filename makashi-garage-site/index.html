@@ -6,15 +6,24 @@
 <title>Ремонт и полиране на фарове София | Makashi Garage</title>
 <meta name="description" content="Makashi Garage — сервиз за рециклиране, ремонт и полиране на автомобилни фарове в София. Полиране с UV защита, възстановяване на рефлектори, LED/Bi-LED и ксенон модули, ремонт на електрически инсталации. Работим с всички марки автомобили.">
 <meta name="keywords" content="ремонт на фарове София, полиране на фарове, рециклиране на фарове, възстановяване на фарове, UV защита фарове, ремонт рефлектори, LED фарове, ксенон ремонт, Makashi Garage">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Makashi Garage">
 <link rel="canonical" href="https://makashi.bg/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="business.business">
 <meta property="og:title" content="Makashi Garage — Ремонт и полиране на фарове, София">
 <meta property="og:description" content="Професионално рециклиране, ремонт и възстановяване на автомобилни фарове. По-добра видимост, безопасност и перфектен външен вид на вашия автомобил.">
-<meta property="og:image" content="images/hero.jpg">
+<meta property="og:image" content="https://makashi.bg/images/hero.jpg">
 <meta property="og:locale" content="bg_BG">
 <meta property="og:url" content="https://makashi.bg/">
+<meta property="og:site_name" content="Makashi Garage">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Makashi Garage — Ремонт и полиране на фарове, София">
+<meta name="twitter:description" content="Професионално рециклиране, ремонт и възстановяване на автомобилни фарове в София.">
+<meta name="twitter:image" content="https://makashi.bg/images/hero.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +49,7 @@
     "addressCountry": "BG"
   },
   "areaServed": "Sofia",
-  "sameAs": ["https://www.instagram.com/makashigarage"],
+  "sameAs": ["https://www.instagram.com/makashigarage", "https://www.facebook.com/makashigarage"],
   "makesOffer": [
     {"@type":"Offer","itemOffered":{"@type":"Service","name":"Полиране и UV защита на фарове"}},
     {"@type":"Offer","itemOffered":{"@type":"Service","name":"Възстановяване на рефлектори"}},
@@ -55,7 +64,6 @@
 </head>
 <body>
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v19.0"></script>
 
 <a href="#main" class="visually-hidden" style="position:absolute;left:-9999px;">Към съдържанието</a>
 
@@ -532,8 +540,12 @@
         <h2>Makashi Garage във Facebook.</h2>
         <p>Последни обекти, преди/след кадри и новини директно от страницата ни.</p>
       </div>
-      <div class="fb-widget reveal">
-        <div class="fb-page"
+      <div class="fb-widget reveal" id="fbWidgetWrap">
+        <div class="consent-gate" id="fbConsentGate">
+          <p>Тук се зарежда съдържание от <strong>Facebook</strong>, което задава бисквитки на техния сървър.</p>
+          <button type="button" class="btn btn-ghost" id="fbConsentBtn">Приемам и зареди Facebook</button>
+        </div>
+        <div class="fb-page" id="fbPageEl"
           data-href="https://www.facebook.com/makashigarage"
           data-tabs="timeline"
           data-width=""
@@ -541,7 +553,8 @@
           data-small-header="false"
           data-adapt-container-width="true"
           data-hide-cover="false"
-          data-show-facepile="true">
+          data-show-facepile="true"
+          style="display:none">
           <blockquote cite="https://www.facebook.com/makashigarage" class="fb-xfbml-parse-ignore">
             <a href="https://www.facebook.com/makashigarage" target="_blank" rel="noopener">Makashi Garage</a>
           </blockquote>
@@ -583,8 +596,12 @@
         <img src="images/shop/facade-clean.jpg" alt="Фасадата на Makashi Garage със сервизната табела — ремонт на фарове и автомобилен детайлинг, София" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--line);background:var(--bg-alt-2);aspect-ratio:4/3;object-fit:contain;" width="1166" height="875">
       </div>
       <div class="split-2 reveal">
-        <div class="map-embed">
-          <iframe src="https://www.google.com/maps?q=ул.%20проф.%20Никола%20Маринов%208А,%20София&output=embed" title="Локация на Makashi Garage" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-embed" id="mapWrap">
+          <div class="consent-gate" id="mapConsentGate">
+            <p>Тук се зарежда карта от <strong>Google Maps</strong>, която задава бисквитки на техния сървър.</p>
+            <button type="button" class="btn btn-ghost" id="mapConsentBtn">Приемам и зареди картата</button>
+          </div>
+          <iframe id="mapIframe" data-src="https://www.google.com/maps?q=ул.%20проф.%20Никола%20Маринов%208А,%20София&output=embed" title="Локация на Makashi Garage" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="display:none"></iframe>
         </div>
         <div class="contact-panel">
           <div class="contact-row">
@@ -651,7 +668,7 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary btn-lg btn-block">Изпрати запитване</button>
-        <p class="form-note">Запитването се изпраща директно към makashigarage@gmail.com. За спешни случаи, обадете се на 0883 312 221.</p>
+        <p class="form-note">Запитването се изпраща директно към makashigarage@gmail.com. За спешни случаи, обадете се на 0883 312 221. Изпращайки формата, приемате нашата <a href="/privacy.html" style="color:var(--accent-cold);">Политика за поверителност</a>.</p>
       </form>
     </div>
   </section>
@@ -686,7 +703,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> Makashi Garage. Всички права запазени.</span>
+      <span>© <span id="year"></span> Makashi Garage. Всички права запазени. · <a href="/cookies.html" style="color:inherit;">Политика за бисквитки</a> · <a href="/privacy.html" style="color:inherit;">Политика за поверителност</a></span>
       <div class="footer-social">
         <a href="https://www.facebook.com/makashigarage" target="_blank" rel="noopener" aria-label="Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -698,6 +715,14 @@
     </div>
   </div>
 </footer>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p>Използваме бисквитки от вградени услуги (Google Maps, Facebook), за да работят определени части от сайта. <a href="/cookies.html">Политика за бисквитки</a></p>
+  <div class="cookie-banner-actions">
+    <button type="button" class="btn btn-ghost" id="cookieDecline">Само необходими</button>
+    <button type="button" class="btn btn-primary" id="cookieAccept">Приемам</button>
+  </div>
+</div>
 
 <button type="button" class="back-to-top" id="backToTop" aria-label="Към началото на страницата">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
