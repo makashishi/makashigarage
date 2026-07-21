@@ -8,6 +8,7 @@
   /* Nav goes solid after scrolling past hero */
   var nav = document.getElementById("siteNav");
   function onScrollNav() {
+    if (!nav) return;
     if (window.scrollY > 60) nav.classList.add("is-solid");
     else nav.classList.remove("is-solid");
   }

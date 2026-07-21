@@ -26,5 +26,11 @@
 - [Услуги](https://makashi.bg/#uslugi): пълен списък с описания на всяка услуга
 - [Преди / След](https://makashi.bg/#predi-sled): снимки на реални резултати от ремонт и полиране на фарове
 - [Локация](https://makashi.bg/#lokatsia): адрес, карта и упътване до сервиза в София
+- [Ремонт и рециклиране на фарове](https://makashi.bg/remont-i-reciklirane-na-farove.html): цялостно рециклиране на фарове, процес и кога е подходящо
+- [Полиране на фарове](https://makashi.bg/polirane-na-farove.html): машинно полиране с UV защита
+- [Керамично покритие](https://makashi.bg/keramichno-pokritie.html): керамична защита за автомобилно покритие
+- [Защо фаровете пожълтяват](https://makashi.bg/blog/zashto-farovete-pozhultyavat.html): обяснение на процеса на пожълтяване на поликарбонатни фарове
+- [Ремонт или подмяна на фар](https://makashi.bg/blog/remont-ili-podmyana-na-far.html): кога да изберете ремонт и кога подмяна
+- [Ремонт на LED/ксенон модули](https://makashi.bg/blog/remont-na-led-ksenon-moduli.html): признаци за повреден модул и как протича диагностиката
 - [Политика за бисквитки](https://makashi.bg/cookies.html)
 - [Политика за поверителност](https://makashi.bg/privacy.html)
